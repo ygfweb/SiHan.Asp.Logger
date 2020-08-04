@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -11,7 +12,6 @@ namespace SiHan.Asp.Logger.LogFiles
     internal class FileLogger : ILogger
     {
         private string CategoryName { get; set; }
-        private static string CurrentCategory = Directory.GetCurrentDirectory();
         private static ReaderWriterLockSlim fileLock = new ReaderWriterLockSlim();
 
         public FileLogger(string categoryName)
@@ -34,7 +34,8 @@ namespace SiHan.Asp.Logger.LogFiles
             string log = LogFormatter.Handle<TState>(this.CategoryName, logLevel, eventId, state, exception, formatter);
             DateTime now = DateTime.Now;
             string fileName = now.ToString("yyyy-MM-dd") + ".log";
-            DirectoryInfo directory = new DirectoryInfo(Path.Combine(CurrentCategory, "logs"));
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            DirectoryInfo directory = new DirectoryInfo(Path.Combine(path, "logs"));
             fileLock.EnterWriteLock();
             try
             {

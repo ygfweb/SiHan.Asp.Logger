@@ -10,7 +10,6 @@ namespace SiHan.Asp.Logger.ColoredConsole
     {
         private readonly string _name;
         private readonly ColoredConsoleLoggerConfiguration _config;
-        private static readonly string CurrentCategory = Directory.GetCurrentDirectory();
 
         public ColoredConsoleLogger(string name, ColoredConsoleLoggerConfiguration config)
         {
